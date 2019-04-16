@@ -1,8 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  articlesList = document.getElementById("articles-list")
-  const endPoint = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=52e60612489545a186416364f8191dea';
+  const container = document.getElementById("article-container")
+  const articlesList = document.getElementById("articles-list")
+  // const topicButtons = document.getElementsByClassName('topic-btn')
+  const navBar = document.getElementById("navbar")
+
+
+  const endPoint = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=3254c2603cad4a0aae7cf5b75a9c2e33&pageSize=10';
    fetch(endPoint).then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
-     createArticle(article)
+     let li = createArticle(article)
+     articlesList.appendChild(li)
    }));
 
    function createArticle(article){
@@ -21,14 +27,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
      li.append(h4, btn, p);
      p.appendChild(btn2);
-     articlesList.appendChild(li);
 
      btn.addEventListener('click', ev => {
        p.hidden = !p.hidden;
-      btn.innerText === "Read more" ? btn.innerText = "Read less" : btn.innerText = "Read more" })
+      btn.innerText === "Read more" ? btn.innerText = "Read less" : btn.innerText = "Read more" });
+
+      return li
    };
 
+   navBar.addEventListener('click', ev => {
+    while(container.hasChildNodes()){
+      container.removeChild(container.firstChild)
+    }
+     categorySearch(ev.target.innerText)
+   });
 
+    // fetch(endPoint + "&catefory=business").then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
+    //   let li = createArticle(article)
+    //   businessList.appendChild(li)
+    // }));
+
+
+    function categorySearch(category){
+      let h2 = document.createElement('h2')
+      h2.innerText = `${category.charAt(0).toUpperCase() + category.slice(1)} News`
+      let ul = document.createElement('ul');
+      container.appendChild(h2)
+      h2.appendChild(ul)
+      debugger
+      fetch(endPoint + `&category=${category}`).then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
+        let li = createArticle(article)
+        ul.appendChild(li)
+      }));
+    }
 
 
 });
