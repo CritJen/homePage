@@ -7,12 +7,32 @@
   </head>
   <body>
 
-
     <div class="container">
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+          <div class="navbar header">
+            <a class="navbar-brand" href="#">homePage</a>
+          </div>
+          <div>
+            <ul id="navbar" class="nav navbar-nav">
+              <li class="active"> <a href="#">Top Stories</a></li>
+              <li> <a class="topic-btn" href="#">Sports</a></li>
+              <li> <a class="topic-btn" href="#">Business</a></li>
+              <li> <a class="topic-btn" href="#">Entertainment</a></li>
+              <li> <a class="topic-btn" href="#">Science</a></li>
+              <li> <a class="topic-btn" href="#">Technology</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="jumbotron">
+    <div class="container" id="article-container">
       <div class="page-header">
-        <h2>Today's News</h2>
+        <h2>Top Stories</h2>
       </div>
-      <div class="jumbotron">
+
 
       <ul id='articles-list'></ul>
       <div id='update'></div>
@@ -22,6 +42,5 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="src/index.js"></script>
-    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
