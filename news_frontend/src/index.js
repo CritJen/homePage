@@ -4,12 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // const topicButtons = document.getElementsByClassName('topic-btn')
   const navBar = document.getElementById("#navbar-collapse-1");
   const section = document.getElementById("section")
-
-
-  const endPoint = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=3254c2603cad4a0aae7cf5b75a9c2e33&pageSize=10';
+  let deutsch = document.getElementById("deutsch")
+  let countryCode = "us"
+  const search = document.getElementById("search")
+  // if(language.innerText == "Deutsch"){
+  //   const endPoint = 'https://newsapi.org/v2/top-headlines?country=de&apiKey=3254c2603cad4a0aae7cf5b75a9c2e33&pageSize=10';
+  //    fetch(endPoint).then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
+  //      createArticle(article, "Top Stories")
+  //    }));
+  // } else {
+  let endPoint = `https://newsapi.org/v2/top-headlines?country=${countryCode}&apiKey=3254c2603cad4a0aae7cf5b75a9c2e33&pageSize=10`;
    fetch(endPoint).then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
      createArticle(article, "Top Stories")
    }));
+ // };
 
    function createArticle(article, category){
      let markup = `
@@ -37,8 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                </div>
                <!----category_article_content------>
                // <div class="media_social">
-               //     <span><a href="#" onclick=readMore()><i class="fa fa-share-alt"></i>Read More </a> </span>
-               //     <span><i class="fa fa-comments-o"></i><a href="${article.url}">Go to ${article.source.name}</a> </span>
+               //     <span><i class="fa fa-comments-o"></i><a href="${article.url}">Read more at: ${article.source.name}</a> </span>
                // </div>
               </div>
             </div>
@@ -79,5 +86,39 @@ document.addEventListener('DOMContentLoaded', () => {
       }));
     }
 
+    search.addEventListener('click', ev => {
+      let searchTerm = ev.target.parentElement.parentElement.firstElementChild.value
+      debugger
+      articlesList.innerHTML = " "
+      fetch(endPoint + `q=${searchTerm}`)
+      .then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
+        createArticle(article, `${searchTerm}`)
+      }));
+    });
+
+
+    deutsch.addEventListener('click', ev => {
+      articlesList.innerHTML = " "
+      countryCode = "de"
+      debugger
+      fetch(`https://newsapi.org/v2/top-headlines?country=de&apiKey=3254c2603cad4a0aae7cf5b75a9c2e33&pageSize=10`).then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
+        createArticle(article, "general")
+      }));
+    });
+
+    english.addEventListener('click', ev => {
+      articlesList.innerHTML = " "
+      countryCode = "us"
+      fetch(endPoint).then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
+        createArticle(article, "Top Stories")
+      }));
+    });
+    spanish.addEventListener('click', ev => {
+      articlesList.innerHTML = " "
+      countryCode = "ve"
+      fetch('https://newsapi.org/v2/top-headlines?country=ve&apiKey=3254c2603cad4a0aae7cf5b75a9c2e33&pageSize=10').then(resp => resp.json()).then(stories => stories.articles.forEach(article => {
+        createArticle(article, "general")
+      }));
+    });
 
 });
